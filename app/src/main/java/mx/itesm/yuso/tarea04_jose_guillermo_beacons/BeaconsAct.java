@@ -66,6 +66,7 @@ public class BeaconsAct extends AppCompatActivity {
                     else if (beacon.getMinor() == 301296 && beacon.getMajor() == 46626){
                         image.setImageResource(android.R.color.transparent);
                     }
+                    //MAU TIENE UN JOTA
                 }
             }
 
