@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Tarea04_Jose_Guillermo_Beacons.iml" filepath="$PROJECT_DIR$/Tarea04_Jose_Guillermo_Beacons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Tarea04_Jose_Guillermo_Beacons.iml" filepath="$PROJECT_DIR$/.idea/Tarea04_Jose_Guillermo_Beacons.iml" />
+      <module fileurl="file://C:\Users\DELL\AndroidStudioProjects\Tarea04_Jose_Guillermo_Beacons\Tarea04_Jose_Guillermo_Beacons.iml" filepath="C:\Users\DELL\AndroidStudioProjects\Tarea04_Jose_Guillermo_Beacons\Tarea04_Jose_Guillermo_Beacons.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\DELL\AndroidStudioProjects\Tarea04_Jose_Guillermo_Beacons\app\app.iml" filepath="C:\Users\DELL\AndroidStudioProjects\Tarea04_Jose_Guillermo_Beacons\app\app.iml" />
     </modules>
   </component>
 </project>
