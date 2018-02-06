@@ -1,6 +1,5 @@
 package mx.itesm.yuso.tarea04_jose_guillermo_beacons;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -44,6 +43,7 @@ public class BeaconsAct extends AppCompatActivity {
 
         text = findViewById(R.id.et_beacon1);
         image = findViewById(R.id.iv_beacon2);
+        image.setVisibility(View.INVISIBLE);
         configurarBeacon();
     }
 
@@ -61,12 +61,11 @@ public class BeaconsAct extends AppCompatActivity {
             public void onEnteredRegion(BeaconRegion beaconRegion, List<Beacon> beacons) {
                 for (Beacon beacon: beacons){
                     if (beacon.getMinor() == 301296 && beacon.getMajor() == 46626){
-                        text.setText("Hola mami, arriba, abajo, lento, lento");
+                        text.setText("Guillermo Pérez Trueba\tA01377162\nJosé Antonio Malo de la Peña\tA01371454");
                     }
                     else if (beacon.getMinor() == 301296 && beacon.getMajor() == 46626){
-                        image.setImageResource(android.R.color.transparent);
+                        image.setVisibility(View.VISIBLE);
                     }
-                    //MAU TIENE UN JOTA
                 }
             }
 
@@ -74,16 +73,14 @@ public class BeaconsAct extends AppCompatActivity {
 
             @Override
             public void onExitedRegion(BeaconRegion beaconRegion) {
-                for (Beacon beacon: beacons){
-                    if (beacon.getMinor() == 301296 && beacon.getMajor() == 46626){
-                        text.setText("Hola mami, arriba, abajo, lento, lento");
+                    if (beaconRegion.getMinor() == 301296 && beaconRegion.getMajor() == 46626){
+                        text.setText("");
                     }
-                    else if (beacon.getMinor() == 301296 && beacon.getMajor() == 46626){
-                        image.setImageResource(android.R.color.transparent);
+                    else if (beaconRegion.getMinor() == 301296 && beaconRegion.getMajor() == 46626){
+                        image.setVisibility(View.INVISIBLE);
                     }
-                }
-                text.setText("");
             }
+
         });
 
         /*managerB.setMonitoringListener(new BeaconManager.BeaconRangingListener() {
