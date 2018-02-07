@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
 import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
 import com.estimote.coresdk.recognition.packets.Beacon;
 import com.estimote.coresdk.service.BeaconManager;
@@ -21,7 +22,7 @@ import java.util.UUID;
 public class BeaconsAct extends AppCompatActivity {
 
     private BeaconManager managerB;
-    private BeaconRegion region, region2;
+    private BeaconRegion region, regionB;
     private TextView text;
     private ImageView image;
 
@@ -49,21 +50,19 @@ public class BeaconsAct extends AppCompatActivity {
 
     private void configurarBeacon() {
         managerB = new BeaconManager(this);
-        region = new BeaconRegion("azul", UUID.fromString("B9407F30-F5F8-466E-AFF9-25556B57FE6D"),  30296, 46626);
+        region = new BeaconRegion("azulA", UUID.fromString("B9407F30-F5F8-466E-AFF9-25556B57FE6D"),  30296, 46626);
+        regionB = new BeaconRegion("azulB", UUID.fromString("B9407F30-F5F8-466E-AFF9-25556B57FE6D"), 26891, 46664);
 
-        region2 = new BeaconRegion("AzulA",
-                UUID.fromString("B9407F30-F5F8-466E-AFF9-25556B57FE6D"),
-                26891, 46664);
-
-        final View  v = this.getWindow().getDecorView();
+        //Ranging detecta todos los beacons y da info
+        //Monitoring cuando entra y sale de la region
         managerB.setMonitoringListener(new BeaconManager.BeaconMonitoringListener() {
             @Override
             public void onEnteredRegion(BeaconRegion beaconRegion, List<Beacon> beacons) {
                 for (Beacon beacon: beacons){
-                    if (beacon.getMinor() == 301296 && beacon.getMajor() == 46626){
-                        text.setText("Guillermo Pérez Trueba\tA01377162\nJosé Antonio Malo de la Peña\tA01371454");
+                    if (beacon.getMinor() == 46626 && beacon.getMajor() == 30296){
+                        text.setText("Guillermo Pérez Trueba\t\t A01377162\nJosé Antonio Malo de la Peña\t\t A01371454");
                     }
-                    else if (beacon.getMinor() == 301296 && beacon.getMajor() == 46626){
+                    else if (beacon.getMinor() == 46664 && beacon.getMajor() == 26891){
                         image.setVisibility(View.VISIBLE);
                     }
                 }
@@ -73,26 +72,17 @@ public class BeaconsAct extends AppCompatActivity {
 
             @Override
             public void onExitedRegion(BeaconRegion beaconRegion) {
-                    if (beaconRegion.getMinor() == 301296 && beaconRegion.getMajor() == 46626){
-                        text.setText("");
-                    }
-                    else if (beaconRegion.getMinor() == 301296 && beaconRegion.getMajor() == 46626){
-                        image.setVisibility(View.INVISIBLE);
-                    }
+                if(beaconRegion.equals(region))
+                    text.setText("");
+                else if(beaconRegion.equals(regionB))
+                    image.setVisibility(View.INVISIBLE);
+
+
+
+
             }
 
         });
-
-        /*managerB.setMonitoringListener(new BeaconManager.BeaconRangingListener() {
-            @Override
-            public void onBeaconsDiscovered(BeaconRegion beaconRegion, List<Beacon> beacons) {
-                for (Beacon beacon: beacons){
-                    if (beacon.getMinor() == 301296 && beacon.getMajor() == 46626){
-
-                    }
-                }
-            }
-        });*/
     }
 
     @Override
@@ -115,5 +105,27 @@ public class BeaconsAct extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SystemRequirementsChecker.checkWithDefaultDialogs(this);
+
+        managerB.connect(new BeaconManager.ServiceReadyCallback() {
+            @Override
+            public void onServiceReady() {
+                managerB.startMonitoring(region);
+                managerB.startMonitoring(regionB);
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        managerB.stopMonitoring("azulA");
+        managerB.stopMonitoring("azulB");
+        super.onPause();
+
     }
 }
